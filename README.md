@@ -8,11 +8,11 @@ However, difficulty is relative towards everyone. Mathforces models problems wit
 ratings and can update those ratings based on performances.
 
 ## Model
-- Users and problems start with equal ratings
-- After each attempt:
+Users and problems start with equal ratings
+After each attempt:
   - Solving increases user rating, decreases problem rating
   - Failing decreases user rating, increases problem rating
-- Based on an Elo-style rating system
+Based on an Elo-style rating system
 
 ## Why This Is Interesting
 Most quizzes assume difficulty.
