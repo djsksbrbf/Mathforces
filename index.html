@@ -2,32 +2,34 @@
 <html>
     <head>
         <title>Mathforces</title>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <div class="container">
+            <h2>Mathforces — Rating Math Problems</h2>
 
-        <h2>Mathforces — Rating Math Problems</h2>
+            <label>User:</label>
+            <select id="userSelect"></select>
 
-        <label>User:</label>
-        <select id="userSelect"></select>
+            <br><br>
 
-        <br><br>
+            <label>Problem:</label>
+            <select id="problemSelect"></select>
 
-        <label>Problem:</label>
-        <select id="problemSelect"></select>
+            <p id="problemText"></p>
+            <br><br>
 
-        <p id="problemText"></p>
-        <br><br>
-
-        
-        <input id="answerInput" type="number" placeholder="Your answer" />
-        <button id="checkAnswer">Check Answer</button>
-        <p id="feedback"></p>
-        <button id="randomProblem">Random Problem</button>
+            
+            <input id="answerInput" type="number" placeholder="Your answer" />
+            <button id="checkAnswer">Check Answer</button>
+            <p id="feedback"></p>
+            <button id="randomProblem">Random Problem</button>
 
 
-        <h3>Ratings</h3>
-        <pre id="output"></pre>
+            <h3>Ratings</h3>
+            <pre id="output"></pre>
 
-        <script src="script.js"></script>
+            <script src="script.js"></script>
+        </div>div>
     </body>
 </html>
