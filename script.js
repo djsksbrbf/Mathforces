@@ -1,4 +1,4 @@
-const RECENT_LIMIT = 1000;  // how many recent problems to avoid
+const RECENT_LIMIT = 5;  // how many recent problems to avoid
 let recentProblems = [];
 
 const init_problem = 1400;
