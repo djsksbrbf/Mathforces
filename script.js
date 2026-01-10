@@ -1,10 +1,12 @@
-const RECENT_LIMIT = 5;   // how many recent problems to avoid
+const RECENT_LIMIT = 1000;  // how many recent problems to avoid
 let recentProblems = [];
 
+const init_problem = 1400;
+const init_user = 1200;
 // Users represent solvers whose skill is inferred from outcomes
 let users = [
-  { id: "Alice", rating: 1200 },
-  { id: "Bob", rating: 1200 }
+  { id: "Alice", rating: init_user},
+  { id: "Bob", rating: init_user}
 ];
 
 // Problems also have ratings so difficulty is learned, not assumed
@@ -14,56 +16,77 @@ let problems = [
     topic: "algebra",
     statement: "Solve for x: 2x + 5 = 13",
     answer: 4,
-    rating: 1200
+    rating: init_problem
   },
   {
     id: "A2",
     topic: "algebra",
     statement: "Solve for x: x^2 = 49 and x > 0",
     answer: 7,
-    rating: 1200
+    rating: init_problem
   },
   {
     id: "A3",
     topic: "algebra",
     statement: "Solve for x: 3x - 7 = 2x + 5",
     answer: 12,
-    rating: 1200
+    rating: init_problem
   },
   {
     id: "G1",
     topic: "geometry",
     statement: "What is the area of a rectangle with sides 4 and 7?",
     answer: 28,
-    rating: 1200
+    rating: init_problem
   },
   {
     id: "G2",
     topic: "geometry",
     statement: "A triangle has base 10 and height 6. What is its area?",
     answer: 30,
-    rating: 1200
+    rating: init_problem
   },
   {
     id: "N1",
     topic: "number theory",
     statement: "What is the greatest common divisor of 24 and 36?",
     answer: 12,
-    rating: 1200
+    rating: init_problem
+  },
+  {
+    id: "N2",
+    topic: "number theory",
+    statement: "What is the largest multiple of 30 which is less than 520?",
+    answer: 510,
+    rating: init_problem
+  },
+  {
+    id: "N3",
+    topic: "number theory",
+    statement: "When the set of natural numbers is listed in ascending order, what is the smallest prime number that occurs after a sequence of five consecutive positive integers all of which are nonprime?",
+    answer: 29,
+    rating: init_problem
+  },
+  {
+    id: "N4",
+    topic: "number theory",
+    statement: "A composite number is a number that has two or more prime factors. The number $87$ can be expressed as the sum of two composite numbers in many ways. What is the minimum positive difference between two such numbers?", 
+    answer: 3,
+    rating: init_problem
   },
   {
     id: "C1",
     topic: "combinatorics",
     statement: "How many ways can you choose 2 items from 5?",
     answer: 10,
-    rating: 1200
+    rating: init_problem
   },
   {
     id: "F1",
     topic: "functions",
     statement: "If f(x) = 2x + 3, what is f(4)?",
     answer: 11,
-    rating: 1200
+    rating: init_problem
   }
 ];
 
@@ -76,6 +99,8 @@ const randomBtn = document.getElementById("randomProblem");
 const answerInput = document.getElementById("answerInput");
 const checkBtn = document.getElementById("checkAnswer");
 const feedback = document.getElementById("feedback");
+const topicSelect = document.getElementById("topicSelect");
+
 
 // --- fill dropdowns ---
 function fill() {
@@ -97,6 +122,26 @@ function fill() {
   });
 }
 
+function renderTopicDropdown() {
+  const topics = ["All", ...new Set(problems.map(p => p.topic))];
+  const selected = topicSelect.value || "All";
+
+  topicSelect.innerHTML = "";
+  topics.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  });
+
+  topicSelect.value = selected;
+}
+
+function getFilteredProblems() {
+  if (topicSelect.value === "All") return problems;
+  return problems.filter(p => p.topic === topicSelect.value);
+}
+
 function renderUserDropdown() {
   const selected = userSelect.value;
 
@@ -112,18 +157,24 @@ function renderUserDropdown() {
 }
 
 function renderProblemDropdown() {
-  const selected = problemSelect.value;
+  const selectedId = problems[problemSelect.value]?.id;
+  const filtered = getFilteredProblems();
 
   problemSelect.innerHTML = "";
-  problems.forEach((p, i) => {
+  filtered.forEach(p => {
+    const i = problems.indexOf(p);
     const opt = document.createElement("option");
     opt.value = i;
-    opt.textContent = `${p.id} (rating: ${(p.rating)})`;
+    opt.textContent = `${p.id} (${p.topic}, rating: ${Math.round(p.rating)})`;
     problemSelect.appendChild(opt);
   });
 
-  problemSelect.value = selected;
+  if (selectedId) {
+    const newIndex = problems.findIndex(p => p.id === selectedId);
+    if (newIndex !== -1) problemSelect.value = newIndex;
+  }
 }
+
 
 // --- Render ratings ---
 function render() {
@@ -132,15 +183,11 @@ function render() {
   document.getElementById("problemText").textContent = p.statement;
   renderProblemDropdown();
   renderUserDropdown();
+  renderTopicDropdown();
 
   let text = "Users:\n";
   users.forEach(u => {
     text += `${u.id}: ${u.rating}\n`;
-  });
-
-  text += "\nProblems:\n";
-  problems.forEach(p => {
-    text += `${p.id}: ${p.rating}\n`;
   });
 
   output.textContent = text;
@@ -176,7 +223,7 @@ function updateRatings(user, problem, userSolved) {
 
 randomBtn.onclick = () => {
   // get list of available indices not recently seen
-  const candidates = problems
+  const candidates = getFilteredProblems()
     .map((_, i) => i)
     .filter(i => !recentProblems.includes(i));
 
@@ -213,6 +260,7 @@ checkBtn.onclick = () => {
   } else {
     feedback.textContent = "Incorrect.";
     updateRatings(u, p, false);
+    recentProblems.splice(1, recentProblems.size() - 1);
   }
   checkBtn.disabled = true;
   answerInput.value = "";
@@ -226,5 +274,9 @@ problemSelect.onchange = () => {
 };
 
 userSelect.onchange = () => {
+  render();
+};
+
+topicSelect.onchange = () => {
   render();
 };
