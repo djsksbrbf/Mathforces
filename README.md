@@ -14,21 +14,19 @@ After each attempt:
   - Failing decreases user rating, increases problem rating
 Based on an Elo-style rating system
 
-## Why This Is Interesting
-Most quizzes assume difficulty.
-Mathforces treats difficulty as something to be learned from data.
-
-## Design Choices
-- Elo-style model for simplicity and transparency
-- No backend or authentication (focus on modeling)
-- Minimal UI to expose rating behavior
-
-## Limitations
-- Cold-start problems have little signal
-- No topic tagging yet
-- Elo assumes a single skill dimension
+## Flow
+- Users attempt a problem
+- User and problem have an original rating
+- User's rating increases or decreases
+- Problem's rating changes in the opposite direction
+- Over time, the system learns which problems are genuinely difficult
 
 ## Future Work
-- Problem submission
-- Rating persistence
-- Transition to IRT-style models
+- Persisting ratings across sessions
+- Sampling problems closer to users' ratings in the random choice
+- Allowing users to target problems with certain tags
+- Supporting proof-based problems
+
+## Running the project 
+- Open 'index.html' in a browser
+- No server or build step required
