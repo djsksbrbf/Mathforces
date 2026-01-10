@@ -1,5 +1,3 @@
-// --- Core data (hard-coded for Day 1) ---
-
 const RECENT_LIMIT = 5;   // how many recent problems to avoid
 let recentProblems = [];
 
@@ -79,8 +77,8 @@ const answerInput = document.getElementById("answerInput");
 const checkBtn = document.getElementById("checkAnswer");
 const feedback = document.getElementById("feedback");
 
-// --- Populate dropdowns ---
-function populate() {
+// --- fill dropdowns ---
+function fill() {
   userSelect.innerHTML = "";
   problemSelect.innerHTML = "";
 
@@ -149,7 +147,7 @@ function render() {
 }
 
 // --- Initial render ---
-populate();
+fill();
 render();
 
 // --- Elo parameters ---
