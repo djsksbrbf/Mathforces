@@ -24,9 +24,8 @@ Based on an Elo-style rating system
 ## Future Work
 - Persisting ratings across sessions
 - Sampling problems closer to users' ratings in the random choice
-- Allowing users to target problems with certain tags
 - Supporting proof-based problems
-- Adding more problems to the problemset available
+- Supporting submission of problems to reshare to others
 
 ## Running the project 
 - Open 'index.html' in a browser
