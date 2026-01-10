@@ -1,11 +1,11 @@
 # Mathforces
 
-Mathforces is a minimal system that infers math problem difficulty
-and solver skill from interaction data.
+Mathforces is an assessment system which models interactions between users and problems in an Elo-style rating system.
 
 ## Core Idea
-Instead of assigning difficulty manually, both users and problems
-have ratings that update based on solve outcomes.
+Most mathematical quiz games contain a fixed difficulty assigned by the author. 
+However, difficulty is relative towards everyone. Mathforces models problems with
+ratings and can update those ratings based on performances.
 
 ## Model
 - Users and problems start with equal ratings
