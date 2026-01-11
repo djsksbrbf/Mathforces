@@ -2,6 +2,7 @@ const RECENT_LIMIT = 5;  // how many recent problems to avoid
 let recentProblems = [];
 
 const init_problem = 1400;
+const init_seed = 1400;
 const init_user = 1200;
 // Users represent solvers whose skill is inferred from outcomes
 let users = [
@@ -10,85 +11,20 @@ let users = [
 ];
 
 // Problems also have ratings so difficulty is learned, not assumed
-let problems = [
-  {
-    id: "A1",
-    topic: "algebra",
-    statement: "Solve for x: 2x + 5 = 13",
-    answer: 4,
-    rating: init_problem
-  },
-  {
-    id: "A2",
-    topic: "algebra",
-    statement: "Solve for x: x^2 = 49 and x > 0",
-    answer: 7,
-    rating: init_problem
-  },
-  {
-    id: "A3",
-    topic: "algebra",
-    statement: "Solve for x: 3x - 7 = 2x + 5",
-    answer: 12,
-    rating: init_problem
-  },
-  {
-    id: "G1",
-    topic: "geometry",
-    statement: "What is the area of a rectangle with sides 4 and 7?",
-    answer: 28,
-    rating: init_problem
-  },
-  {
-    id: "G2",
-    topic: "geometry",
-    statement: "A triangle has base 10 and height 6. What is its area?",
-    answer: 30,
-    rating: init_problem
-  },
-  {
-    id: "N1",
-    topic: "number theory",
-    statement: "What is the greatest common divisor of 24 and 36?",
-    answer: 12,
-    rating: init_problem
-  },
-  {
-    id: "N2",
-    topic: "number theory",
-    statement: "What is the largest multiple of 30 which is less than 520?",
-    answer: 510,
-    rating: init_problem
-  },
-  {
-    id: "N3",
-    topic: "number theory",
-    statement: "When the set of natural numbers is listed in ascending order, what is the smallest prime number that occurs after a sequence of five consecutive positive integers all of which are nonprime?",
-    answer: 29,
-    rating: init_problem
-  },
-  {
-    id: "N4",
-    topic: "number theory",
-    statement: "A composite number is a number that has two or more prime factors. The number $87$ can be expressed as the sum of two composite numbers in many ways. What is the minimum positive difference between two such numbers?", 
-    answer: 3,
-    rating: init_problem
-  },
-  {
-    id: "C1",
-    topic: "combinatorics",
-    statement: "How many ways can you choose 2 items from 5?",
-    answer: 10,
-    rating: init_problem
-  },
-  {
-    id: "F1",
-    topic: "functions",
-    statement: "If f(x) = 2x + 3, what is f(4)?",
-    answer: 11,
-    rating: init_problem
-  }
-];
+let problems = [];
+
+fetch("problems.json")
+  .then(res => res.json())
+  .then(data => {
+    problems = data;
+    initProblems(); // call whatever setup you already have
+  })
+  .catch(err => console.error("Failed to load problems:", err));
+
+function initProblems() {
+  populateProblemDropdown();
+  selectRandomProblem();
+}
 
 
 // --- Grab DOM elements ---
